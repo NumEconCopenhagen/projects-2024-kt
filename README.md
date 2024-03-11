@@ -1,7 +1,7 @@
-# \[Group name\]
+# KT
 
 **Group members:**
-- A
+- Kasper
 - B
 - C
 
