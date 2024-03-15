@@ -2,8 +2,7 @@
 
 **Group members:**
 - Kasper
-- B
-- C
+
 
 This repository contains  
 1. Inaugural project. 
