@@ -1,9 +1,8 @@
-# \[Group name\]
+# KT
 
 **Group members:**
-- A
-- B
-- C
+- Kasper
+
 
 This repository contains  
 1. Inaugural project. 
