@@ -23,6 +23,7 @@ class ExchangeEconomyClass:
         return x1B**self.par.beta * x2B**self.par.beta
 
     def demand_A(self,p1):
+    # Returns a tuple of demand for good 1 and 2 for consumer A
         I_A = self.par.w1A*p1 + self.par.w2A
         demand_bundle_A = (self.par.alpha*I_A/p1, (1-self.par.alpha)*I_A)
         return demand_bundle_A
@@ -33,6 +34,7 @@ class ExchangeEconomyClass:
         return demand_bundle_B
 
     def check_market_clearing(self,p1):
+    # a eps1 and eps2 = 0 when markets clear
 
         par = self.par
 
