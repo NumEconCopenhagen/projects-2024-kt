@@ -1,4 +1,5 @@
 from types import SimpleNamespace
+import numpy as np
 
 class ExchangeEconomyClass:
 
@@ -45,3 +46,30 @@ class ExchangeEconomyClass:
         eps2 = x2A-par.w2A + x2B-(1-par.w2A)
 
         return eps1,eps2
+    
+    def find_equilibrium(self, p1_guess):
+    # Equilibrium price for good 1 is found using iteration
+        t = 0
+        p1 = p1_guess
+        eps = 1e-6
+        kappa = 0.1
+        maxiter = 500
+
+        while True:
+            # Excess demand
+            x1A,x2A = self.demand_A(p1)
+            x1B,x2B = self.demand_B(p1)
+            
+            E1 = x1A + x1B - 1
+            E2 = x2A + x2B - 1
+
+            if np.abs(E1) < eps or t >= maxiter:
+                print(f'{t:3d}: p1 = {p1:12.8f} -> excess demand for good 1-> {E1:14.8f}')
+                print(f'{t:3d}: p1 = {1:12.8f} -> excess demand for good 2-> {E2:14.8f}')
+                break 
+
+            p1 += kappa * E1/2
+
+            t += 1
+        
+
