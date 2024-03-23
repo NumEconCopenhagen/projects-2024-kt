@@ -18,10 +18,10 @@ class ExchangeEconomyClass:
         par.w2B = 1-par.w2A
 
     def utility_A(self,x1A,x2A):
-        return x1A**self.par.alpha * x2A**self.par.alpha
+        return x1A**self.par.alpha * x2A**(1-self.par.alpha)
 
     def utility_B(self,x1B,x2B):
-        return x1B**self.par.beta * x2B**self.par.beta
+        return x1B**self.par.beta * x2B**(1-self.par.beta)
 
     def demand_A(self,p1):
     # Returns a tuple of demand for good 1 and 2 for consumer A
@@ -71,5 +71,15 @@ class ExchangeEconomyClass:
             p1 += kappa * E1/2
 
             t += 1
-        
+
+
+
+
+    
+      
+
+    
+            
+
+
 
