@@ -65,7 +65,7 @@ class ExchangeEconomyClass:
 
             if np.abs(E1) < eps or t >= maxiter:
                 print(f'{t:3d}: p1 = {p1:12.8f} -> excess demand for good 1-> {E1:14.8f}')
-                print(f'{t:3d}: p1 = {1:12.8f} -> excess demand for good 2-> {E2:14.8f}')
+                print(f'{t:3d}: p2 = {1:12.8f} -> excess demand for good 2-> {E2:14.8f}')
                 break 
 
             p1 += kappa * E1/2
