@@ -1,4 +1,3 @@
-from scipy import optimize
 from types import SimpleNamespace
 import numpy as np
 from matplotlib import pyplot as plt
@@ -22,25 +21,31 @@ class InvestorForecast:
             new_q = ((1-self.par.pi_L) * ((1-self.par.lam_1) * q + self.par.lam_2 * (1-q))) / ((1-self.par.pi_L) * ((1-self.par.lam_1) * q + self.par.lam_2 * (1-q)) + (1-self.par.pi_H) * (self.par.lam_1 * q + (1-self.par.lam_2) * (1 - q)))
         return new_q
     
-    def convergence(self, old_y, new_y):
+    def convergence(self, old_y, new_y, printDetails = True):
+    # printDetails allows to not print the deatiled convergence and plots when comparing reparameterization
         max_iterations = 100
         tolerance = 1e-6
         q_values = [self.par.q_ini]
-        print("Iteration\tq\t\tnew_q")
+        if printDetails:
+            print("Iteration\tq\t\tnew_q")
         for i in range(max_iterations):
             old_q = q_values[-1]
             new_q = self.forecast(old_y, new_y, old_q)
             q_values.append(new_q)
-            print(f"{i+1}\t\t{old_q:.6f}\t{new_q:.6f}")
+            if printDetails:
+                print(f"{i+1}\t\t{old_q:.6f}\t{new_q:.6f}")
             if abs(new_q - old_q) < tolerance:
                 break
+        
+        if printDetails:
+            plt.plot(range(len(q_values)), q_values, marker='o', linestyle='-')
+            plt.xlabel('Iteration')
+            plt.ylabel('q Value')
+            plt.title('Convergence of q')
+            plt.grid(True)
+            plt.show()
 
-        plt.plot(q_values, marker='o')
-        plt.xlabel('Iteration')
-        plt.ylabel('q Value')
-        plt.title('Convergence of q')
-        plt.grid(True)
-        plt.show()
+        return q_values
     
     def simulate(self, n):
         old_y = 1
@@ -53,7 +58,7 @@ class InvestorForecast:
             old_y = new_y
             q = q_values[i]
 
-        plt.plot(range(1, n+1), q_values, marker='o', linestyle='-')
+        plt.plot(range(1, n+1), q_values, marker='o', linestyle='--')
         plt.xlabel('Iteration')
         plt.ylabel('q Value')
         plt.title('q Value for Each Iteration')
