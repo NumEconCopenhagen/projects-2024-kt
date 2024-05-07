@@ -47,22 +47,24 @@ class InvestorForecast:
 
         return q_values
     
-    def simulate(self, n):
+    def simulate(self, n, simDetails = True):
         old_y = 1
         q_values = []
         q = self.par.q_ini
         for i in range(n):
             new_y = np.random.choice([-1, 1])
             q_values.append(self.forecast(old_y,new_y,q))
-            print(f"Iteration {i+1:2}: old_y = {old_y:2}, new_y = {new_y:2}, q = {q_values[i]:.2f}")
+            if simDetails:
+                print(f"Period {i+1:2}: old_y = {old_y:2}, new_y = {new_y:2}, q = {q_values[i]:.2f}")
             old_y = new_y
             q = q_values[i]
 
-        plt.plot(range(1, n+1), q_values, marker='o', linestyle='--')
-        plt.xlabel('Iteration')
-        plt.ylabel('q Value')
-        plt.title('q Value for Each Iteration')
-        plt.grid(True)
-        plt.show()
+        if simDetails:
+            plt.plot(range(1, n+1), q_values, marker='o', linestyle='--')
+            plt.xlabel('Iteration')
+            plt.ylabel('q Value')
+            plt.title('q Value for Each Iteration')
+            plt.grid(True)
+            plt.show()
 
         return q_values
