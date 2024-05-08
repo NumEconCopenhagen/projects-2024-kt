@@ -21,23 +21,23 @@ class InvestorForecast:
             new_q = ((1-self.par.pi_L) * ((1-self.par.lam_1) * q + self.par.lam_2 * (1-q))) / ((1-self.par.pi_L) * ((1-self.par.lam_1) * q + self.par.lam_2 * (1-q)) + (1-self.par.pi_H) * (self.par.lam_1 * q + (1-self.par.lam_2) * (1 - q)))
         return new_q
     
-    def convergence(self, old_y, new_y, printDetails = True):
+    def convergence(self, old_y, new_y, conDetails = True):
     # printDetails allows to not print the deatiled convergence and plots when comparing reparameterization
         max_iterations = 100
         tolerance = 1e-6
         q_values = [self.par.q_ini]
-        if printDetails:
+        if conDetails:
             print("Iteration\tq\t\tnew_q")
         for i in range(max_iterations):
             old_q = q_values[-1]
             new_q = self.forecast(old_y, new_y, old_q)
             q_values.append(new_q)
-            if printDetails:
+            if conDetails:
                 print(f"{i+1}\t\t{old_q:.6f}\t{new_q:.6f}")
             if abs(new_q - old_q) < tolerance:
                 break
         
-        if printDetails:
+        if conDetails:
             plt.plot(range(len(q_values)), q_values, marker='o', linestyle='-')
             plt.xlabel('Iteration')
             plt.ylabel('q Value')
@@ -48,6 +48,7 @@ class InvestorForecast:
         return q_values
     
     def simulate(self, n, simDetails = True):
+    # simDetails allows to not print the deatiled simulation and plots when comparing reparameterization
         old_y = 1
         q_values = []
         q = self.par.q_ini
