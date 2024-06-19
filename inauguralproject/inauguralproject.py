@@ -33,6 +33,16 @@ class ExchangeEconomyClass:
         I_B = self.par.w1B*p1 + self.par.w2B
         demand_bundle_B = (self.par.beta*I_B/p1, (1-self.par.beta)*I_B)
         return demand_bundle_B
+    
+    def exchange_lens(self, N):
+        exchange_lens = []
+        for i in range(N+1):
+            x1A = i/N
+            for j in range(N+1):
+                x2A = j/N
+                if self.utility_A(x1A, x2A) >= self.utility_A(self.par.w1A, self.par.w2A) and self.utility_B(1-x1A, 1-x2A) >= self.utility_B(self.par.w1B, self.par.w2B):
+                    exchange_lens.append([x1A, x2A])
+        return exchange_lens
 
     def check_market_clearing(self,p1):
     # a eps1 and eps2 = 0 when markets clear
