@@ -1,6 +1,6 @@
 from types import SimpleNamespace
 import numpy as np
-from scipy import optimize
+from scipy import minimize
 
 class ExchangeEconomyClass:
 
@@ -83,6 +83,26 @@ class ExchangeEconomyClass:
             p1 += kappa * E1/2
 
             t += 1
+    
+    def random_demand_con(self, p1, omega1, omega2):
+        I_A = omega1*p1 + omega2
+        I_B = (1-omega1)*p1 + (1-omega2)
+
+        # Demands
+        D1A = self.alpha * I_A/p1
+        D2A = (1-self.alpha) * I_A
+        D1B = self.beta * I_B/p1
+        D2B = (1-self.beta) * I_B
+
+        return [D1A + D1B -1, D2A + D2B - 1]
+
+    def find_equilibrium_numer(self):
+        ini_guess = 1.0
+
+        eq_price = minimize(lambda p1: p1, ini_guess, constraints={'fun': self.random_demand_con, 'type': 'eq'})
+        return eq_price
+
+
 
 
 
