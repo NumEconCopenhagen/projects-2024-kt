@@ -15,6 +15,15 @@ class InvestorForecast:
         par.q_ini = 0.5
     
     def forecast(self, old_y, new_y, q):
+        """
+        Forecast function
+        
+        Input:
+        old_y: Shock in previous period
+        new_y: Shock in current period
+
+        Output: Investor's belief in q-value for the coming period
+        """
         if old_y == new_y:
             new_q = (self.par.pi_L * ((1-self.par.lam_1) * q + self.par.lam_2 * (1-q))) / (self.par.pi_L * ((1-self.par.lam_1) * q + self.par.lam_2 * (1-q)) + self.par.pi_H * (self.par.lam_1*q + (1-self.par.lam_2) * (1-q)))
         else:
@@ -22,6 +31,16 @@ class InvestorForecast:
         return new_q
     
     def convergence(self, old_y, new_y, conDetails = True):
+        """
+        Convergence of q-value
+        
+        Input:
+        old_y: Shock in previous period
+        new_y: Shock in current period
+        conDetails: Unless changed to False, will print detailed convergence and plots of the convergence
+
+        Output: Convergence of investor's belief in q-value
+        """
     # printDetails allows to not print the deatiled convergence and plots when comparing reparameterization
         max_iterations = 100
         tolerance = 1e-6
@@ -48,6 +67,15 @@ class InvestorForecast:
         return q_values
     
     def simulate(self, n, simDetails = True):
+        """
+        Simulation of q-value given n random shocks
+        
+        Input:
+        n: number of shocks
+        simDeatils: Unless changed to False, will print detailed simulation and plots of the q-value
+
+        Output: Simulated q-value for the coming period, depending on previous- and current periods q-value.
+        """
     # simDetails allows to not print the deatiled simulation and plots when comparing reparameterization
         old_y = 1
         q_values = []
