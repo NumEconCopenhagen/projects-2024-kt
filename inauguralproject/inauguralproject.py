@@ -19,23 +19,65 @@ class ExchangeEconomyClass:
         par.w2B = 1-par.w2A
 
     def utility_A(self,x1A,x2A):
+        """
+        Utility function of agent A
+        
+        Input:
+        x1A: consumption of good 1
+        x2A: consumption of good 2
+
+        Output: Utility of agent A
+        """
+
         return x1A**self.par.alpha * x2A**(1-self.par.alpha)
 
     def utility_B(self,x1B,x2B):
+        """
+        Utility function of agent B
+        
+        Input:
+        x1B: consumption of good 1
+        x2B: consumption of good 2
+
+        Output: Utility of agent B
+        """
         return x1B**self.par.beta * x2B**(1-self.par.beta)
 
     def demand_A(self,p1):
-    # Returns a tuple of demand for good 1 and 2 for consumer A
+        """
+        Demand function for agent A
+        
+        Input:
+        p1: price of good 1
+
+        Output: Tuple of demands for good 1 and 2
+        """
         I_A = self.par.w1A*p1 + self.par.w2A
         demand_bundle_A = (self.par.alpha*I_A/p1, (1-self.par.alpha)*I_A)
         return demand_bundle_A
         
     def demand_B(self,p1):
+        """
+        Demand function for agent B
+        
+        Input:
+        p1: price of good 1
+
+        Output: Tuple of demands for good 1 and 2
+        """
         I_B = self.par.w1B*p1 + self.par.w2B
         demand_bundle_B = (self.par.beta*I_B/p1, (1-self.par.beta)*I_B)
         return demand_bundle_B
     
     def exchange_lens(self, N):
+        """
+        Exchange lens given increments in amounts allocated
+        
+        Input:
+        N: Increase of 1/N amount of good 1 and 2, respectively,  per iteration
+
+        Output: List of tuple over allocations that is a Pareto improvement of initial endowment
+        """
         exchange_lens = []
         for i in range(N+1):
             x1A = i/N
@@ -46,7 +88,14 @@ class ExchangeEconomyClass:
         return exchange_lens
 
     def check_market_clearing(self,p1):
-    # a eps1 and eps2 = 0 when markets clear
+        """
+        Checking for market clearing
+        
+        Input:
+        p1: Price of good 1
+
+        Output: Excess demand in markets for good 1 and 2, given p1
+        """
 
         par = self.par
 
@@ -59,7 +108,16 @@ class ExchangeEconomyClass:
         return eps1,eps2
     
     def find_equilibrium_iter(self, p1_guess, details = True):
-    # Equilibrium price for good 1 is found using iteration
+        """
+        Finding equilibrium price through iteration
+        
+        Input:
+        p1_guess: Initial guess for price of good 1
+        details: Unless stated as False, output will print excess demands in equilibrium to console
+
+        Output: Return equilibrium allocation of x1A, x2A.
+        Also prints results to console, unless details = False
+        """
         t = 0
         p1 = p1_guess
         eps = 1e-6
@@ -85,6 +143,17 @@ class ExchangeEconomyClass:
             t += 1
     
     def random_demand_con(self, p1, omega1, omega2):
+        """
+        Calculating demands of agent A and agent B
+        
+        Input:
+        p1: Price of good 1
+        omega1: Endowed amount x1A
+        omega2: Endowed amount x2A
+
+        Output: Excess demand in markets for good 1 and 2, given p1
+        """
+
         I_A = omega1*p1 + omega2
         I_B = (1-omega1)*p1 + (1-omega2)
 
@@ -97,6 +166,15 @@ class ExchangeEconomyClass:
         return [D1A + D1B -1, D2A + D2B - 1]
 
     def edgeworth_box(self, title, pad):
+        """
+        Setting up an Edgeworth box
+        
+        Input:
+        title: Plot title in string form
+        pad: Distance from title to plot
+
+        Output: Prints a plot of an Edgeworth box with given title
+        """
         # a. total endowment
         w1bar = 1.0
         w2bar = 1.0
